@@ -19,7 +19,8 @@ public class WyborPrzesylka extends JFrame {
         listButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                dispose();
+                ZarzadzajListami zarzadzajListami = new ZarzadzajListami();
             }
         });
         paczkaButton.addActionListener(new ActionListener() {

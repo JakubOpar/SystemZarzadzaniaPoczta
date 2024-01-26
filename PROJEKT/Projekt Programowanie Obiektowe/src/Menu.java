@@ -52,7 +52,8 @@ public class Menu extends JFrame {
         przesylkiButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                dispose();
+                WyborPrzesylka wyborPrzesylka = new WyborPrzesylka();
             }
         });
     }
