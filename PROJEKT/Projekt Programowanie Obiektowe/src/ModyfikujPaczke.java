@@ -57,6 +57,7 @@ public class ModyfikujPaczke extends JFrame implements ILacz,IModyfikowanie{
                 textField1.setText(resultSet.getString(13));
 
             }
+            lacz.close();
         }catch(SQLException e)
         {
             e.printStackTrace();
@@ -127,6 +128,7 @@ public class ModyfikujPaczke extends JFrame implements ILacz,IModyfikowanie{
                     JOptionPane.showMessageDialog(null,"Zaktualizowano dane!");
                 }
             }
+            lacz.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -31,6 +31,7 @@ public class ModyfikujRejon extends JFrame implements ILacz,IModyfikowanie {
                 textField1.setText(resultSet.getString(1));
                 textArea1.setText(resultSet.getString(2));
             }
+            lacz.close();
         }catch(SQLException e)
         {
             e.printStackTrace();
@@ -83,6 +84,7 @@ public class ModyfikujRejon extends JFrame implements ILacz,IModyfikowanie {
                 if (rowsUpdated > 0) {
                     JOptionPane.showMessageDialog(null,"Zaktualizowano dane!");
                 }
+                lacz.close();
 
             }
         } catch (SQLException e) {

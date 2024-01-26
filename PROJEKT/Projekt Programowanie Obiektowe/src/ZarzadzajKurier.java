@@ -101,6 +101,7 @@ public class ZarzadzajKurier extends JFrame implements ILacz,IWyswietlanie {
                         DefaultTableModel tableModel = (DefaultTableModel)table1.getModel();
                         tableModel.addRow(data);
                     }
+                    lacz.close();
 
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -139,6 +140,7 @@ public class ZarzadzajKurier extends JFrame implements ILacz,IWyswietlanie {
                         DefaultTableModel tableModel = (DefaultTableModel)table1.getModel();
                         tableModel.addRow(data);
                     }
+                    lacz.close();
 
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -183,6 +185,7 @@ public class ZarzadzajKurier extends JFrame implements ILacz,IWyswietlanie {
                         DefaultTableModel tableModel = (DefaultTableModel)table1.getModel();
                         tableModel.addRow(data);
                     }
+                    lacz.close();
 
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -234,6 +237,7 @@ public class ZarzadzajKurier extends JFrame implements ILacz,IWyswietlanie {
                 DefaultTableModel tableModel = (DefaultTableModel)table1.getModel();
                 tableModel.addRow(data);
             }
+            lacz.close();
         }
         catch(SQLException e)
         {

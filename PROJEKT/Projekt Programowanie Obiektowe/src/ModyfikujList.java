@@ -55,6 +55,7 @@ public class ModyfikujList extends JFrame implements ILacz,IModyfikowanie{
                 textField1.setText(resultSet.getString(12));
 
             }
+            lacz.close();
         }catch(SQLException e)
         {
             e.printStackTrace();
@@ -124,6 +125,7 @@ public class ModyfikujList extends JFrame implements ILacz,IModyfikowanie{
                 if (rowsUpdated > 0) {
                     JOptionPane.showMessageDialog(null,"Zaktualizowano dane!");
                 }
+                lacz.close();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

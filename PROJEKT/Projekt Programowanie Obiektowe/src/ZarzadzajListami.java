@@ -145,6 +145,7 @@ public class ZarzadzajListami extends JFrame implements ILacz,IWyswietlanie {
                         DefaultTableModel tableModel = (DefaultTableModel)table1.getModel();
                         tableModel.addRow(data);
                     }
+                    lacz.close();
 
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -227,6 +228,7 @@ public class ZarzadzajListami extends JFrame implements ILacz,IWyswietlanie {
                         DefaultTableModel tableModel = (DefaultTableModel)table1.getModel();
                         tableModel.addRow(data);
                     }
+                    lacz.close();
 
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -324,6 +326,7 @@ public class ZarzadzajListami extends JFrame implements ILacz,IWyswietlanie {
                         DefaultTableModel tableModel = (DefaultTableModel)table1.getModel();
                         tableModel.addRow(data);
                     }
+                    lacz.close();
 
 
                 } catch (SQLException ex) {
@@ -420,6 +423,7 @@ public class ZarzadzajListami extends JFrame implements ILacz,IWyswietlanie {
                 DefaultTableModel tableModel = (DefaultTableModel)table1.getModel();
                 tableModel.addRow(data);
             }
+            lacz.close();
         }
         catch(SQLException e)
         {

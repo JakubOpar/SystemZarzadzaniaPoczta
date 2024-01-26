@@ -47,6 +47,7 @@ public class UsunList extends JFrame implements ILacz,IUsuwanie {
             if (rowsDeleted > 0) {
                 JOptionPane.showMessageDialog(null,"List został usunięty pomyślnie");
             }
+            lacz.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

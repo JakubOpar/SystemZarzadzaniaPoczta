@@ -135,6 +135,7 @@ public class ZarzadzajPaczkami extends JFrame implements ILacz,IWyswietlanie {
                         DefaultTableModel tableModel = (DefaultTableModel)table1.getModel();
                         tableModel.addRow(data);
                     }
+                    lacz.close();
 
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -207,6 +208,7 @@ public class ZarzadzajPaczkami extends JFrame implements ILacz,IWyswietlanie {
                         DefaultTableModel tableModel = (DefaultTableModel)table1.getModel();
                         tableModel.addRow(data);
                     }
+                    lacz.close();
 
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -294,6 +296,7 @@ public class ZarzadzajPaczkami extends JFrame implements ILacz,IWyswietlanie {
                         DefaultTableModel tableModel = (DefaultTableModel)table1.getModel();
                         tableModel.addRow(data);
                     }
+                    lacz.close();
 
 
                 } catch (SQLException ex) {
@@ -380,6 +383,7 @@ public class ZarzadzajPaczkami extends JFrame implements ILacz,IWyswietlanie {
                 DefaultTableModel tableModel = (DefaultTableModel)table1.getModel();
                 tableModel.addRow(data);
             }
+            lacz.close();
         }
         catch(SQLException e)
         {

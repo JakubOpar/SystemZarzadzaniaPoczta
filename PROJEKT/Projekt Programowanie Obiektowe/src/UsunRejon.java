@@ -48,6 +48,7 @@ public class UsunRejon extends JFrame implements ILacz,IUsuwanie {
             if (rowsDeleted > 0) {
                 JOptionPane.showMessageDialog(null,"Oddział został usunięty pomyślnie");
             }
+            lacz.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

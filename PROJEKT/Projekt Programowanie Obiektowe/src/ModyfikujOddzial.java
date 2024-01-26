@@ -71,6 +71,7 @@ public class ModyfikujOddzial extends JFrame implements ILacz,IModyfikowanie {
             if (rowsUpdated > 0) {
                 JOptionPane.showMessageDialog(null,"Zaktualizowano dane!");
             }
+            lacz.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
