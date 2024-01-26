@@ -6,8 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
-public class ZarzadzajListami extends JFrame implements ILacz,IWyswietlanie {
-    private JPanel ZarzadzajListamiPanel;
+public class ZarzadzajPaczkami extends JFrame implements ILacz,IWyswietlanie {
+    private JPanel ZarzadzajPaczkamiPanel;
     private JButton dodajButton;
     private JButton zAButton;
     private JButton usunButton;
@@ -22,10 +22,10 @@ public class ZarzadzajListami extends JFrame implements ILacz,IWyswietlanie {
 
     private final int Width = 1600, Height = 800;
 
-    public ZarzadzajListami()
+    public ZarzadzajPaczkami()
     {
         super("Post Menagment System");
-        this.setContentPane(this.ZarzadzajListamiPanel);
+        this.setContentPane(this.ZarzadzajPaczkamiPanel);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(Width,Height);
@@ -42,13 +42,13 @@ public class ZarzadzajListami extends JFrame implements ILacz,IWyswietlanie {
         dodajButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                DodajList dodajList = new DodajList();
+                DodajPaczke dodajpaczke = new DodajPaczke();
             }
         });
         usunButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                UsunList usunList = new UsunList();
+                UsunPaczke usunPaczke = new UsunPaczke();
             }
         });
         modyfikujButton.addActionListener(new ActionListener() {
@@ -59,7 +59,7 @@ public class ZarzadzajListami extends JFrame implements ILacz,IWyswietlanie {
                 {
                     int selectedRow = table1.getSelectedRow();
                     Object Id = table1.getValueAt(selectedRow,0);
-                    ModyfikujList modyfikujList = new ModyfikujList(Integer.parseInt(Id.toString()));
+                    ModyfikujPaczke modyfikujpaczke = new ModyfikujPaczke(Integer.parseInt(Id.toString()));
                 }
                 else {
                     if (table1.getRowCount() == 0)
@@ -76,7 +76,7 @@ public class ZarzadzajListami extends JFrame implements ILacz,IWyswietlanie {
                 Connection lacz = null;
                 try {
                     lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
-                    String zapytanie = "SELECT * FROM `listy` ORDER BY `Status` ASC";
+                    String zapytanie = "SELECT * FROM `paczki` ORDER BY `Status` ASC";
                     Statement statement = lacz.createStatement();
                     ResultSet resultSet = statement.executeQuery(zapytanie);
                     while (resultSet.next())
@@ -92,36 +92,26 @@ public class ZarzadzajListami extends JFrame implements ILacz,IWyswietlanie {
                         String adresObdiorcy = resultSet.getString(9);
                         String kodPocztowyOdbiorcy = resultSet.getString(10);
                         String miejscowoscOdbiorcy = resultSet.getString(11);
-                        int czyPolecony = resultSet.getInt(12);
-                        int czyZPotwierdzeniemOdbioru = resultSet.getInt(13);
-                        int idListonosza = resultSet.getInt(14);
+                        int czyDelikatna = resultSet.getInt(12);
+                        double waga = resultSet.getDouble(13);
+                        int idKuriera = resultSet.getInt(14);
                         String status = resultSet.getString(15);
 
 
-                        String tempCzyPolecony = Integer.toString(czyPolecony);
-                        if(tempCzyPolecony.equals("0"))
+                        String tempCzyDelikatna = Integer.toString(czyDelikatna);
+                        if(tempCzyDelikatna.equals("0"))
                         {
-                            tempCzyPolecony = "NIE";
+                            tempCzyDelikatna = "NIE";
                         }
                         else
                         {
-                            tempCzyPolecony = "TAK";
+                            tempCzyDelikatna = "TAK";
                         }
 
-                        String tempCzyZPotwierdzeniemOdbioru = Integer.toString(czyZPotwierdzeniemOdbioru);
-                        if(tempCzyZPotwierdzeniemOdbioru.equals("0"))
+                        String tempidKuriera = Integer.toString(idKuriera);
+                        if(tempidKuriera.equals("0"))
                         {
-                            tempCzyZPotwierdzeniemOdbioru = "NIE";
-                        }
-                        else
-                        {
-                            tempCzyZPotwierdzeniemOdbioru = "TAK";
-                        }
-
-                        String tempIdListonosza = Integer.toString(idListonosza);
-                        if(tempIdListonosza.equals("0"))
-                        {
-                            tempIdListonosza = "Nie przydzielono";
+                            tempidKuriera = "Nie przydzielono";
                         }
 
                         String[] data = {
@@ -136,9 +126,9 @@ public class ZarzadzajListami extends JFrame implements ILacz,IWyswietlanie {
                                 adresObdiorcy,
                                 kodPocztowyOdbiorcy,
                                 miejscowoscOdbiorcy,
-                                tempCzyPolecony,
-                                tempCzyZPotwierdzeniemOdbioru,
-                                tempIdListonosza,
+                                tempCzyDelikatna,
+                                Double.toString(waga),
+                                tempidKuriera,
                                 status
                         };
 
@@ -158,7 +148,7 @@ public class ZarzadzajListami extends JFrame implements ILacz,IWyswietlanie {
                 Connection lacz = null;
                 try {
                     lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
-                    String zapytanie = "SELECT * FROM `listy` ORDER BY `Status` DESC";
+                    String zapytanie = "SELECT * FROM `paczki` ORDER BY `Status` DESC";
                     Statement statement = lacz.createStatement();
                     ResultSet resultSet = statement.executeQuery(zapytanie);
                     while (resultSet.next())
@@ -174,36 +164,26 @@ public class ZarzadzajListami extends JFrame implements ILacz,IWyswietlanie {
                         String adresObdiorcy = resultSet.getString(9);
                         String kodPocztowyOdbiorcy = resultSet.getString(10);
                         String miejscowoscOdbiorcy = resultSet.getString(11);
-                        int czyPolecony = resultSet.getInt(12);
-                        int czyZPotwierdzeniemOdbioru = resultSet.getInt(13);
-                        int idListonosza = resultSet.getInt(14);
+                        int czyDelikatna = resultSet.getInt(12);
+                        double waga = resultSet.getDouble(13);
+                        int idKuriera = resultSet.getInt(14);
                         String status = resultSet.getString(15);
 
 
-                        String tempCzyPolecony = Integer.toString(czyPolecony);
-                        if(tempCzyPolecony.equals("0"))
+                        String tempCzyDelikatna = Integer.toString(czyDelikatna);
+                        if(tempCzyDelikatna.equals("0"))
                         {
-                            tempCzyPolecony = "NIE";
+                            tempCzyDelikatna = "NIE";
                         }
                         else
                         {
-                            tempCzyPolecony = "TAK";
+                            tempCzyDelikatna = "TAK";
                         }
 
-                        String tempCzyZPotwierdzeniemOdbioru = Integer.toString(czyZPotwierdzeniemOdbioru);
-                        if(tempCzyZPotwierdzeniemOdbioru.equals("0"))
+                        String tempidKuriera = Integer.toString(idKuriera);
+                        if(tempidKuriera.equals("0"))
                         {
-                            tempCzyZPotwierdzeniemOdbioru = "NIE";
-                        }
-                        else
-                        {
-                            tempCzyZPotwierdzeniemOdbioru = "TAK";
-                        }
-
-                        String tempIdListonosza = Integer.toString(idListonosza);
-                        if(tempIdListonosza.equals("0"))
-                        {
-                            tempIdListonosza = "Nie przydzielono";
+                            tempidKuriera = "Nie przydzielono";
                         }
 
                         String[] data = {
@@ -218,9 +198,9 @@ public class ZarzadzajListami extends JFrame implements ILacz,IWyswietlanie {
                                 adresObdiorcy,
                                 kodPocztowyOdbiorcy,
                                 miejscowoscOdbiorcy,
-                                tempCzyPolecony,
-                                tempCzyZPotwierdzeniemOdbioru,
-                                tempIdListonosza,
+                                tempCzyDelikatna,
+                                Double.toString(waga),
+                                tempidKuriera,
                                 status
                         };
 
@@ -242,7 +222,7 @@ public class ZarzadzajListami extends JFrame implements ILacz,IWyswietlanie {
                 Connection lacz = null;
                 try {
                     lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
-                    String zapytanie = "SELECT * FROM `listy` WHERE `ID_Listu` = ? OR `Imie_Nadawcy` LIKE ? OR `Nazwisko_Nadawcy` LIKE ? OR `Adres_Nadawcy` LIKE ? OR `Kod_Pocztowy_Nadawcy` LIKE ? OR `Kod_Pocztowy_Miejscowosc_Nadawcy` LIKE ? OR `Imie_Odbiorcy` LIKE ? OR `Nazwisko_Odbiorcy` LIKE ? OR `Adres_Odbiorcy`LIKE ? OR `Kod_Pocztowy_Odbiorcy` LIKE ? OR `Kod_Pocztowy_Miejscowosc_Odbiorcy` LIKE ? OR `Status` LIKE ?";
+                    String zapytanie = "SELECT * FROM `paczki` WHERE `ID_Paczki` = ? OR `Imie_Nadawcy` LIKE ? OR `Nazwisko_Nadawcy` LIKE ? OR `Adres_Nadawcy` LIKE ? OR `Kod_Pocztowy_Nadawcy` LIKE ? OR `Kod_Pocztowy_Miejscowosc_Nadawcy` LIKE ? OR `Imie_Odbiorcy` LIKE ? OR `Nazwisko_Odbiorcy` LIKE ? OR `Adres_Odbiorcy`LIKE ? OR `Kod_Pocztowy_Odbiorcy` LIKE ? OR `Kod_Pocztowy_Miejscowosc_Odbiorcy` LIKE ? OR `Status` LIKE ?";
                     PreparedStatement statement = lacz.prepareStatement(zapytanie);
                     statement.setString(1,value);
                     statement.setString(2,value);
@@ -271,36 +251,26 @@ public class ZarzadzajListami extends JFrame implements ILacz,IWyswietlanie {
                         String adresObdiorcy = resultSet.getString(9);
                         String kodPocztowyOdbiorcy = resultSet.getString(10);
                         String miejscowoscOdbiorcy = resultSet.getString(11);
-                        int czyPolecony = resultSet.getInt(12);
-                        int czyZPotwierdzeniemOdbioru = resultSet.getInt(13);
-                        int idListonosza = resultSet.getInt(14);
+                        int czyDelikatna = resultSet.getInt(12);
+                        double waga = resultSet.getDouble(13);
+                        int idKuriera = resultSet.getInt(14);
                         String status = resultSet.getString(15);
 
 
-                        String tempCzyPolecony = Integer.toString(czyPolecony);
-                        if(tempCzyPolecony.equals("0"))
+                        String tempCzyDelikatna = Integer.toString(czyDelikatna);
+                        if(tempCzyDelikatna.equals("0"))
                         {
-                            tempCzyPolecony = "NIE";
+                            tempCzyDelikatna = "NIE";
                         }
                         else
                         {
-                            tempCzyPolecony = "TAK";
+                            tempCzyDelikatna = "TAK";
                         }
 
-                        String tempCzyZPotwierdzeniemOdbioru = Integer.toString(czyZPotwierdzeniemOdbioru);
-                        if(tempCzyZPotwierdzeniemOdbioru.equals("0"))
+                        String tempidKuriera = Integer.toString(idKuriera);
+                        if(tempidKuriera.equals("0"))
                         {
-                            tempCzyZPotwierdzeniemOdbioru = "NIE";
-                        }
-                        else
-                        {
-                            tempCzyZPotwierdzeniemOdbioru = "TAK";
-                        }
-
-                        String tempIdListonosza = Integer.toString(idListonosza);
-                        if(tempIdListonosza.equals("0"))
-                        {
-                            tempIdListonosza = "Nie przydzielono";
+                            tempidKuriera = "Nie przydzielono";
                         }
 
                         String[] data = {
@@ -315,9 +285,9 @@ public class ZarzadzajListami extends JFrame implements ILacz,IWyswietlanie {
                                 adresObdiorcy,
                                 kodPocztowyOdbiorcy,
                                 miejscowoscOdbiorcy,
-                                tempCzyPolecony,
-                                tempCzyZPotwierdzeniemOdbioru,
-                                tempIdListonosza,
+                                tempCzyDelikatna,
+                                Double.toString(waga),
+                                tempidKuriera,
                                 status
                         };
 
@@ -352,7 +322,7 @@ public class ZarzadzajListami extends JFrame implements ILacz,IWyswietlanie {
         try{
             Connection lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
             Statement statement = lacz.createStatement();
-            String zapytanie2 = "SELECT * FROM listy";
+            String zapytanie2 = "SELECT * FROM paczki";
             ResultSet resultSet = statement.executeQuery(zapytanie2);
             while (resultSet.next())
             {
@@ -367,36 +337,26 @@ public class ZarzadzajListami extends JFrame implements ILacz,IWyswietlanie {
                 String adresObdiorcy = resultSet.getString(9);
                 String kodPocztowyOdbiorcy = resultSet.getString(10);
                 String miejscowoscOdbiorcy = resultSet.getString(11);
-                int czyPolecony = resultSet.getInt(12);
-                int czyZPotwierdzeniemOdbioru = resultSet.getInt(13);
-                int idListonosza = resultSet.getInt(14);
+                int czyDelikatna = resultSet.getInt(12);
+                double waga = resultSet.getDouble(13);
+                int idKuriera = resultSet.getInt(14);
                 String status = resultSet.getString(15);
 
 
-                String tempCzyPolecony = Integer.toString(czyPolecony);
-                if(tempCzyPolecony.equals("0"))
+                String tempCzyDelikatna = Integer.toString(czyDelikatna);
+                if(tempCzyDelikatna.equals("0"))
                 {
-                    tempCzyPolecony = "NIE";
+                    tempCzyDelikatna = "NIE";
                 }
                 else
                 {
-                    tempCzyPolecony = "TAK";
+                    tempCzyDelikatna = "TAK";
                 }
 
-                String tempCzyZPotwierdzeniemOdbioru = Integer.toString(czyZPotwierdzeniemOdbioru);
-                if(tempCzyZPotwierdzeniemOdbioru.equals("0"))
+                String tempidKuriera = Integer.toString(idKuriera);
+                if(tempidKuriera.equals("0"))
                 {
-                    tempCzyZPotwierdzeniemOdbioru = "NIE";
-                }
-                else
-                {
-                    tempCzyZPotwierdzeniemOdbioru = "TAK";
-                }
-
-                String tempIdListonosza = Integer.toString(idListonosza);
-                if(tempIdListonosza.equals("0"))
-                {
-                    tempIdListonosza = "Nie przydzielono";
+                    tempidKuriera = "Nie przydzielono";
                 }
 
                 String[] data = {
@@ -411,9 +371,9 @@ public class ZarzadzajListami extends JFrame implements ILacz,IWyswietlanie {
                         adresObdiorcy,
                         kodPocztowyOdbiorcy,
                         miejscowoscOdbiorcy,
-                        tempCzyPolecony,
-                        tempCzyZPotwierdzeniemOdbioru,
-                        tempIdListonosza,
+                        tempCzyDelikatna,
+                        Double.toString(waga),
+                        tempidKuriera,
                         status
                 };
 
@@ -432,7 +392,7 @@ public class ZarzadzajListami extends JFrame implements ILacz,IWyswietlanie {
         Object[][] data = {};
         table1.setModel(new DefaultTableModel(
                 data,new String[]{"ID Listu","Imie Nadawcy","Nazwisko Nadawcy","Adres Nadawcy","Kod Pocztowy Nadawcy","Miejscowość Nadawcy","Imie Odbiorcy"
-                ,"Nazwisko Odbiorcy","Adres Odbiorcy","Kod Pocztowy Odbiorcy","Miejscowość Odbiorcy","Czy Polecony","Czy z potwierdzeniem odbioru","ID listonosza","Status"}
+                ,"Nazwisko Odbiorcy","Adres Odbiorcy","Kod Pocztowy Odbiorcy","Miejscowość Odbiorcy","Czy Delikatna","Waga","ID kuriera","Status"}
         ));
 
         TableColumnModel column = table1.getColumnModel();

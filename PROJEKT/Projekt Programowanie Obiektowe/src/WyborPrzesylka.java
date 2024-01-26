@@ -26,7 +26,8 @@ public class WyborPrzesylka extends JFrame {
         paczkaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                dispose();
+                ZarzadzajPaczkami zarzadzajPaczkami = new ZarzadzajPaczkami();
             }
         });
         wyjscieButton.addActionListener(new ActionListener() {

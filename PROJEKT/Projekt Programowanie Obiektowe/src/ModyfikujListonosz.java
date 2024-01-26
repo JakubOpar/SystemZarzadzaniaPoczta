@@ -22,7 +22,7 @@ public class ModyfikujListonosz extends JFrame implements ILacz,IModyfikowanie {
         this.setVisible(true);
         try{
             Connection lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
-            String zapytanie = "SELECT `Imie_Listonosza`,`Nazwisko_Listonosza`,`ID_Listonosza` FROM `listonosze` WHERE ID_Listonosza = ? ";
+            String zapytanie = "SELECT `Imie_Listonosza`,`Nazwisko_Listonosza`,`ID_Rejonu` FROM `listonosze` WHERE ID_Listonosza = ? ";
             PreparedStatement statement = lacz.prepareStatement(zapytanie);
             statement.setInt(1,index);
 
@@ -56,17 +56,36 @@ public class ModyfikujListonosz extends JFrame implements ILacz,IModyfikowanie {
     @Override
     public void modyfikuj(int id) {
         try {
+            String ID_Rejonu = textField2.getText();
             Connection lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
-            String zapytanie = "UPDATE `listonosze` SET `Imie_Listonosza` = ?, `Nazwisko_Listonosza` = ?, `ID_Rejonu` = ? WHERE ID_Listonosza = ?";
+            String zapytanie = "Select ID_Rejonu FROM rejon WHERE ID_rejonu = ?";
             PreparedStatement statement = lacz.prepareStatement(zapytanie);
-            statement.setString(1,textField1.getText());
-            statement.setString(2,textField2.getText());
-            statement.setString(3,textField3.getText());
-            statement.setInt(4,id);
+            statement.setString(1,ID_Rejonu);
+            int row = 0;
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next())
+            {
+                row++;
+            }
 
-            int rowsUpdated = statement.executeUpdate();
-            if (rowsUpdated > 0) {
-                JOptionPane.showMessageDialog(null,"Zaktualizowano dane!");
+            if(row == 0)
+            {
+                JOptionPane.showMessageDialog(null,"Nie istnieje rejon o takim id!");
+            }
+            else
+            {
+                lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
+                String zapytanie2 = "UPDATE `listonosze` SET `Imie_Listonosza` = ?, `Nazwisko_Listonosza` = ?, `ID_Rejonu` = ? WHERE ID_Listonosza = ?";
+                statement = lacz.prepareStatement(zapytanie2);
+                statement.setString(1,textField1.getText());
+                statement.setString(2,textField2.getText());
+                statement.setString(3,textField3.getText());
+                statement.setInt(4,id);
+
+                int rowsUpdated = statement.executeUpdate();
+                if (rowsUpdated > 0) {
+                    JOptionPane.showMessageDialog(null,"Zaktualizowano dane!");
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
