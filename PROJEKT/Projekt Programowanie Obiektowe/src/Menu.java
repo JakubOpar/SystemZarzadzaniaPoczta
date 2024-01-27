@@ -14,7 +14,7 @@ public class Menu extends JFrame {
 
     public Menu()
     {
-        super("Post Menagment System");
+        super("System zarządzania pocztą");
         this.setContentPane(this.MenuPanel);
         this.setSize(Width,Height);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
