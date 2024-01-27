@@ -37,7 +37,7 @@ public class Rejon implements ILacz,IDodawanie{
 
 
     @Override
-    public void Dodaj() {
+    public void Dodaj() throws QueryException {
         try{
             Connection lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
             String zapytanie = "INSERT INTO rejon (ID_Rejonu, Kod_Rejonu, Opis_Rejonu, ID_Oddzialu) VALUES (NULL,?,?,NULL)";
@@ -52,7 +52,7 @@ public class Rejon implements ILacz,IDodawanie{
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            throw new QueryException("Wystąpił błąd w zapytaniu Sql");
         }
     }
 }

@@ -20,7 +20,7 @@ public class Kurier extends Rejon implements ILacz,IDodawanie{
         this.nazwiskoKuriera = nazwiskoKuriera;
     }
 
-    public void Dodaj()
+    public void Dodaj() throws QueryException
     {
         Connection lacz = null;
         try {
@@ -36,7 +36,7 @@ public class Kurier extends Rejon implements ILacz,IDodawanie{
             argument.close();
             lacz.close();
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            throw new QueryException("Wystąpił błąd w zapytania Sql");
         }
     }
 

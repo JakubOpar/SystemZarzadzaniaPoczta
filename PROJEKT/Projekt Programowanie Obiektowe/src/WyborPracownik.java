@@ -12,7 +12,7 @@ public class WyborPracownik extends JFrame {
 
     public WyborPracownik()
     {
-        super("Post Menagment System");
+        super("System zarządzania pocztą");
         this.setContentPane(this.wPracPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);

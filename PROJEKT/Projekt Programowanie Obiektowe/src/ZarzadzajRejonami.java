@@ -24,13 +24,17 @@ public class ZarzadzajRejonami extends JFrame implements ILacz,IWyswietlanie {
 
     public ZarzadzajRejonami()
     {
-        super("Post Menagment System");
+        super("System zarządzania pocztą");
         this.setContentPane(this.ZarzadzajRejonamiPanel);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(Width,Height);
         createTable();
-        wyswietl();
+        try {
+            wyswietl();
+        } catch (QueryException e) {
+            JOptionPane.showMessageDialog(null,e.getMessage());
+        }
 
         wyjscieButton.addActionListener(new ActionListener() {
             @Override
@@ -98,7 +102,7 @@ public class ZarzadzajRejonami extends JFrame implements ILacz,IWyswietlanie {
                     }
 
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    JOptionPane.showMessageDialog(null,"Wystąpił błąd w zapytaniu Sql");
                 }
             }
         });
@@ -131,7 +135,7 @@ public class ZarzadzajRejonami extends JFrame implements ILacz,IWyswietlanie {
                     }
 
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    JOptionPane.showMessageDialog(null,"Wystąpił błąd w zapytaniu Sql");
                 }
             }
         });
@@ -169,7 +173,7 @@ public class ZarzadzajRejonami extends JFrame implements ILacz,IWyswietlanie {
                     }
 
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    JOptionPane.showMessageDialog(null,"Wystąpił błąd w zapytaniu Sql");
                 }
 
             }
@@ -178,7 +182,11 @@ public class ZarzadzajRejonami extends JFrame implements ILacz,IWyswietlanie {
             @Override
             public void actionPerformed(ActionEvent e) {
                 createTable();
-                wyswietl();
+                try {
+                    wyswietl();
+                } catch (QueryException ex) {
+                    JOptionPane.showMessageDialog(null,ex.getMessage());
+                }
 
             }
         });
@@ -186,13 +194,17 @@ public class ZarzadzajRejonami extends JFrame implements ILacz,IWyswietlanie {
             @Override
             public void actionPerformed(ActionEvent e) {
                 createTable();
-                wyswietl();
+                try {
+                    wyswietl();
+                } catch (QueryException ex) {
+                    JOptionPane.showMessageDialog(null,ex.getMessage());
+                }
             }
         });
     }
 
     @Override
-    public void wyswietl() {
+    public void wyswietl() throws QueryException {
         try{
             Connection lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
             Statement statement = lacz.createStatement();
@@ -224,7 +236,7 @@ public class ZarzadzajRejonami extends JFrame implements ILacz,IWyswietlanie {
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            throw new QueryException("Wystąpił błąd w zapytaniu Sql");
         }
     }
 
@@ -232,7 +244,7 @@ public class ZarzadzajRejonami extends JFrame implements ILacz,IWyswietlanie {
     public void createTable() {
         Object[][] data = {};
         table1.setModel(new DefaultTableModel(
-                data,new String[]{"ID_Rejonu","Kod Rejonu","Opis","Id_Oddziału"}
+                data,new String[]{"ID_Rejonu","Kod Rejonu (S)","Opis","Id_Oddziału"}
         ));
 
         TableColumnModel column = table1.getColumnModel();

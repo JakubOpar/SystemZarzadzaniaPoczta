@@ -19,7 +19,7 @@ public class DodajList extends JFrame {
     private JTextField textFieldO3;
     private JTextField textFieldO2;
 
-    private final int Width = 1000, Height = 400;
+    private final int Width = 1000, Height = 550;
 
     public DodajList()
     {
@@ -74,52 +74,52 @@ public class DodajList extends JFrame {
 
                     if(!imieNadawcy.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$"))
                     {
-                        komunikat += "imie nadawcy \n";
+                        komunikat += "imie nadawcy (Max. 20 znaków) \n";
                         blad++;
                     }
                     if(!nazwiskoNadawcy.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$"))
                     {
-                        komunikat += "nazwisko nadawcy \n";
+                        komunikat += "nazwisko nadawcy (Max. 20 znaków) \n";
                         blad++;
                     }
                     if(!adresNadawcy.matches("^[a-zA-Z0-9ęóąśłżźćńĘÓĄŚŁŻŹĆŃ\\s]{1,30}$"))
                     {
-                        komunikat += "adres nadawcy \n";
+                        komunikat += "adres nadawcy (Max. 30 znaków) \n";
                         blad++;
                     }
                     if(!kodPocztowyNadawcy.matches("^[0-9]{2}-[0-9]{3}$"))
                     {
-                        komunikat += "kod pocztowy nadawcy \n";
+                        komunikat += "kod pocztowy nadawcy (prawidłowy Format XX-XXX) \n";
                         blad++;
                     }
                     if(!miejscowoscNadawcy.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ\\s]{1,20}$"))
                     {
-                        komunikat += "miejscowosc kp. nadawcy \n";
+                        komunikat += "miejscowosc kp. nadawcy (Max. 20 znaków)\n";
                         blad++;
                     }
                     if(!imieOdbiorcy.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$"))
                     {
-                        komunikat += "imie odbiorcy \n";
+                        komunikat += "imie odbiorcy (Max. 20 znaków) \n";
                         blad++;
                     }
                     if(!nazwiskoOdbiorcy.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$"))
                     {
-                        komunikat += "nazwisko odbiorcy \n";
+                        komunikat += "nazwisko odbiorcy (Max. 20 znaków) \n";
                         blad++;
                     }
                     if(!adresObdiorcy.matches("^[a-zA-Z0-9ęóąśłżźćńĘÓĄŚŁŻŹĆŃ\\s]{1,30}$"))
                     {
-                        komunikat += "adres odbiorcy \n";
+                        komunikat += "adres odbiorcy (Max. 30 znaków) \n";
                         blad++;
                     }
                     if(!kodPocztowyOdbiorcy.matches("^[0-9]{2}-[0-9]{3}$"))
                     {
-                        komunikat += "kod pocztowy odbiorcy \n";
+                        komunikat += "kod pocztowy odbiorcy (prawidłowy Format XX-XXX) \n";
                         blad++;
                     }
                     if(!miejscowoscOdbiorcy.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ\\s]{1,30}$"))
                     {
-                        komunikat += "miejscowosc kp. odbiorcy \n";
+                        komunikat += "miejscowosc kp. odbiorcy (Max. 20 znaków)  \n";
                         blad++;
                     }
 
@@ -131,7 +131,11 @@ public class DodajList extends JFrame {
                     {
                         List list = new List(imieNadawcy,nazwiskoNadawcy,adresNadawcy,kodPocztowyNadawcy,miejscowoscNadawcy,
                                 imieOdbiorcy,nazwiskoOdbiorcy,adresObdiorcy,kodPocztowyOdbiorcy,miejscowoscOdbiorcy,czyPolecony,czyZPotwierdzeniemOdbioru);
-                        list.Dodaj();
+                        try {
+                            list.Dodaj();
+                        } catch (QueryException ex) {
+                            JOptionPane.showMessageDialog(null,ex.getMessage());
+                        }
                         dispose();
                     }
 

@@ -10,7 +10,7 @@ public class UsunRejon extends JFrame implements ILacz,IUsuwanie {
     private JPanel UsunRejonPanel;
     private JTextField textField1;
     private JButton zatwierdzButton;
-    private JButton wyjscieButton;
+    private JButton anulujButton;
 
     private final int Width = 300, Height = 200;
 
@@ -22,7 +22,7 @@ public class UsunRejon extends JFrame implements ILacz,IUsuwanie {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(Width,Height);
 
-        wyjscieButton.addActionListener(new ActionListener() {
+        anulujButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
@@ -34,7 +34,11 @@ public class UsunRejon extends JFrame implements ILacz,IUsuwanie {
                 String arg = textField1.getText();
                 if(arg.matches("^[1-9]{1,3}$"))
                 {
-                    usun(arg);
+                    try {
+                        usun(arg);
+                    } catch (QueryException ex) {
+                        JOptionPane.showMessageDialog(null,ex.getMessage());
+                    }
                     dispose();
                 }
                 else
@@ -46,7 +50,7 @@ public class UsunRejon extends JFrame implements ILacz,IUsuwanie {
     }
 
     @Override
-    public void usun(String arg) {
+    public void usun(String arg) throws QueryException {
         try {
             Connection lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
             String zapytanie ="DELETE FROM rejon WHERE ID_Rejonu = ?";
@@ -58,7 +62,7 @@ public class UsunRejon extends JFrame implements ILacz,IUsuwanie {
             }
             lacz.close();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new QueryException("Wystąpił błąd w zapytaniu Sql");
         }
     }
 }

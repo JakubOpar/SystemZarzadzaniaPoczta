@@ -24,7 +24,7 @@ public class ZarzadzajKurier extends JFrame implements ILacz,IWyswietlanie {
 
     public ZarzadzajKurier()
     {
-        super("Post Menagment System");
+        super("System zarządzania pocztą");
         this.setContentPane(this.ZarzadzajKurierPanel);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -249,7 +249,7 @@ public class ZarzadzajKurier extends JFrame implements ILacz,IWyswietlanie {
     public void createTable() {
         Object[][] data = {};
         table1.setModel(new DefaultTableModel(
-                data,new String[]{"ID_Kuriera","Imie","Listonosza","Id_Rejonu"}
+                data,new String[]{"ID_Kuriera","Imie","Nazwisko (S)","Id_Rejonu"}
         ));
 
         TableColumnModel column = table1.getColumnModel();

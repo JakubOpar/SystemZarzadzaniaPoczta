@@ -49,13 +49,17 @@ public class ModyfikujKurier extends JFrame implements ILacz,IModyfikowanie {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                modyfikuj(index);
+                try {
+                    modyfikuj(index);
+                } catch (QueryException ex) {
+                    JOptionPane.showMessageDialog(null,ex.getMessage());
+                }
             }
         });
     }
 
     @Override
-    public void modyfikuj(int id) {
+    public void modyfikuj(int id) throws QueryException {
         String imieKuriera = textField1.getText();
         String nazwiskoKuriera = textField2.getText();
         String idRejonu = textField3.getText();
@@ -73,7 +77,7 @@ public class ModyfikujKurier extends JFrame implements ILacz,IModyfikowanie {
             lacz.close();
         }catch (SQLException e)
         {
-            throw new RuntimeException(e);
+            throw new QueryException("Wystąpił bład w zapytaniu Sql");
         }
 
         if(imieKuriera.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$") && nazwiskoKuriera.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$") && idRejonu.matches("^[0-9]{1,3}$") && row > 0)
@@ -93,7 +97,7 @@ public class ModyfikujKurier extends JFrame implements ILacz,IModyfikowanie {
                 }
                 lacz.close();
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                throw new QueryException("Wystąpił bład w zapytaniu Sql");
             }
         }
         else

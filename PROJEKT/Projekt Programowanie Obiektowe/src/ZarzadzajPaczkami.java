@@ -24,13 +24,17 @@ public class ZarzadzajPaczkami extends JFrame implements ILacz,IWyswietlanie {
 
     public ZarzadzajPaczkami()
     {
-        super("Post Menagment System");
+        super("System zarządzania pocztą");
         this.setContentPane(this.ZarzadzajPaczkamiPanel);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(Width,Height);
         createTable();
-        wyswietl();
+        try {
+            wyswietl();
+        } catch (QueryException e) {
+            JOptionPane.showMessageDialog(null,e.getMessage());
+        }
 
         wyjscieButton.addActionListener(new ActionListener() {
             @Override
@@ -138,7 +142,7 @@ public class ZarzadzajPaczkami extends JFrame implements ILacz,IWyswietlanie {
                     lacz.close();
 
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    JOptionPane.showMessageDialog(null,"Wystąpił błąd w zapytaniu Sql");
                 }
             }
         });
@@ -211,7 +215,7 @@ public class ZarzadzajPaczkami extends JFrame implements ILacz,IWyswietlanie {
                     lacz.close();
 
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    JOptionPane.showMessageDialog(null,"Wystąpił błąd w zapytaniu Sql");
                 }
             }
         });
@@ -300,7 +304,7 @@ public class ZarzadzajPaczkami extends JFrame implements ILacz,IWyswietlanie {
 
 
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    JOptionPane.showMessageDialog(null,"Wystąpił błąd w zapytaniu Sql");
                 }
             }
         });
@@ -308,20 +312,28 @@ public class ZarzadzajPaczkami extends JFrame implements ILacz,IWyswietlanie {
             @Override
             public void actionPerformed(ActionEvent e) {
                 createTable();
-                wyswietl();
+                try {
+                    wyswietl();
+                } catch (QueryException ex) {
+                    JOptionPane.showMessageDialog(null,ex.getMessage());
+                }
             }
         });
         wyczyscFiltryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 createTable();
-                wyswietl();
+                try {
+                    wyswietl();
+                } catch (QueryException ex) {
+                    JOptionPane.showMessageDialog(null,ex.getMessage());
+                }
             }
         });
     }
 
     @Override
-    public void wyswietl() {
+    public void wyswietl() throws QueryException {
         try{
             Connection lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
             Statement statement = lacz.createStatement();
@@ -387,7 +399,7 @@ public class ZarzadzajPaczkami extends JFrame implements ILacz,IWyswietlanie {
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            throw new QueryException("Wystąpił błąd w zapytaniu Sql");
         }
     }
 
@@ -395,8 +407,8 @@ public class ZarzadzajPaczkami extends JFrame implements ILacz,IWyswietlanie {
     public void createTable() {
         Object[][] data = {};
         table1.setModel(new DefaultTableModel(
-                data,new String[]{"ID Listu","Imie Nadawcy","Nazwisko Nadawcy","Adres Nadawcy","Kod Pocztowy Nadawcy","Miejscowość Nadawcy","Imie Odbiorcy"
-                ,"Nazwisko Odbiorcy","Adres Odbiorcy","Kod Pocztowy Odbiorcy","Miejscowość Odbiorcy","Czy Delikatna","Waga","ID kuriera","Status"}
+                data,new String[]{"ID Listu","Imie Nadawcy","Nazwisko Nadawcy","Adres Nadawcy","K. P. Nadawcy","Miejscowość Nadawcy","Imie Odbiorcy"
+                ,"Nazwisko Odbiorcy","Adres Odbiorcy","K. P. Odbiorcy","Miejscowość Odbiorcy","Czy Delikatna","Waga","ID kuriera","Status (S)"}
         ));
 
         TableColumnModel column = table1.getColumnModel();

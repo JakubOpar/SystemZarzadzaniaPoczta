@@ -33,7 +33,11 @@ public class DodajKurier extends JFrame{
                 if(imieKuriera.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$") && nazwiskoKuriera.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$"))
                 {
                     Kurier kurier = new Kurier(imieKuriera,nazwiskoKuriera);
-                    kurier.Dodaj();
+                    try {
+                        kurier.Dodaj();
+                    } catch (QueryException ex) {
+                      JOptionPane.showMessageDialog(null,ex.getMessage());
+                    }
                     dispose();
                 }
                 else

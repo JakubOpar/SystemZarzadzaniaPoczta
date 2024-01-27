@@ -11,7 +11,7 @@ public class WyborPrzesylka extends JFrame {
 
     public WyborPrzesylka()
     {
-        super("Post Menagment System");
+        super("System zarządzania pocztą");
         this.setContentPane(this.WyborPrzesPanel);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

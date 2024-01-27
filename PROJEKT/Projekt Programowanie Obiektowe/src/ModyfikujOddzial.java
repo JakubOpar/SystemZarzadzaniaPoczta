@@ -37,7 +37,7 @@ public class ModyfikujOddzial extends JFrame implements ILacz,IModyfikowanie {
 
         }catch(SQLException e)
         {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null,"Wystąpił błąd w zapytaniu Sql");
         }
 
         wyjscieButton.addActionListener(new ActionListener() {
@@ -50,13 +50,17 @@ public class ModyfikujOddzial extends JFrame implements ILacz,IModyfikowanie {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                modyfikuj(index);
+                try {
+                    modyfikuj(index);
+                } catch (QueryException ex) {
+                    JOptionPane.showMessageDialog(null,ex.getMessage());
+                }
             }
         });
     }
 
     @Override
-    public void modyfikuj(int id) {
+    public void modyfikuj(int id) throws QueryException {
         try{
             String nazwaOddzialu = textField1.getText();
             String adresZameldowania = textField2.getText();
@@ -64,7 +68,7 @@ public class ModyfikujOddzial extends JFrame implements ILacz,IModyfikowanie {
             String miejscowosc = textField4.getText();
             Connection lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
 
-            if(nazwaOddzialu.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,50}$") && adresZameldowania.matches("^[a-zA-Z0-9ęóąśłżźćńĘÓĄŚŁŻŹĆŃ\\s]{1,50}$")
+            if(nazwaOddzialu.matches("^[a-zA-Z0-9ęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,50}$") && adresZameldowania.matches("^[a-zA-Z0-9ęóąśłżźćńĘÓĄŚŁŻŹĆŃ\\s]{1,50}$")
                     && kodPocztowy.matches("^[0-9]{2}-[0-9]{3}$") && miejscowosc.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ\\s]{1,20}$"))
             {
                 String zapytanie = "UPDATE `oddzialy` SET `Nazwa_Oddzialu` = ?, `Miejsce_Zameldowania` = ?, `Kod_Pocztowy` = ?, `Miejscowosc` = ? WHERE `oddzialy`.`ID_Oddzialu` = ?";
@@ -82,11 +86,11 @@ public class ModyfikujOddzial extends JFrame implements ILacz,IModyfikowanie {
             }
             else
             {
-                JOptionPane.showMessageDialog(null,"Podano zły format danych");
+                JOptionPane.showMessageDialog(null,"Podano zły format danych\n (Max. 50 znaków)");
             }
             lacz.close();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new QueryException("Wystąpił błąd w zapytaniu Sql");
         }
     }
 }

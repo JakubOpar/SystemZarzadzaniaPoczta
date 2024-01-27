@@ -19,7 +19,7 @@ public class Oddzial implements ILacz,IDodawanie{
 
 
     @Override
-    public void Dodaj() {
+    public void Dodaj() throws QueryException {
         try{
             Connection lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
             String zapytanie ="INSERT INTO oddzialy (Nazwa_Oddzialu, Miejsce_Zameldowania, Kod_Pocztowy, Miejscowosc) VALUES (?,?,?,?)";
@@ -37,7 +37,7 @@ public class Oddzial implements ILacz,IDodawanie{
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            throw new QueryException("Wystąpił błąd w zapytaniu Sql");
         }
 
     }

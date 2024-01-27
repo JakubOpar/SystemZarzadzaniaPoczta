@@ -33,7 +33,11 @@ public class UsunPaczke extends JFrame implements ILacz,IUsuwanie {
                 String arg = textField1.getText();
                 if(arg.matches("^[1-9]{1,3}$"))
                 {
-                    usun(arg);
+                    try {
+                        usun(arg);
+                    } catch (QueryException ex) {
+                        JOptionPane.showMessageDialog(null,ex.getMessage());
+                    }
                     dispose();
                 }
                 else
@@ -45,7 +49,7 @@ public class UsunPaczke extends JFrame implements ILacz,IUsuwanie {
     }
 
     @Override
-    public void usun(String arg) {
+    public void usun(String arg) throws QueryException {
         try {
             Connection lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
             String zapytanie ="DELETE FROM paczki WHERE ID_Paczki = ?";
@@ -58,7 +62,7 @@ public class UsunPaczke extends JFrame implements ILacz,IUsuwanie {
             lacz.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new QueryException("Wystąpił błąd w zapytaniu Sql");
         }
     }
 }

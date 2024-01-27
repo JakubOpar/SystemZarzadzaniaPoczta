@@ -33,7 +33,11 @@ public class DodajListonosz extends JFrame {
                 if(imieListonosza.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$") && nazwiskoListonosza.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$"))
                 {
                     Listonosz listonosz = new Listonosz(textField1.getText(),textField2.getText());
-                    listonosz.Dodaj();
+                    try {
+                        listonosz.Dodaj();
+                    } catch (QueryException ex) {
+                        JOptionPane.showMessageDialog(null,ex.getMessage());
+                    }
                     dispose();
                 }
                 else

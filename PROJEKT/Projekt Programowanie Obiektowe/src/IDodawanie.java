@@ -1,3 +1,3 @@
 public interface IDodawanie {
-    void Dodaj();
+    void Dodaj() throws QueryException;
 }

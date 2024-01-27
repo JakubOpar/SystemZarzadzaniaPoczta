@@ -68,7 +68,7 @@
             <border type="none"/>
             <children>
               <grid id="117fa" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="40" left="0" bottom="60" right="0"/>
+                <margin top="40" left="10" bottom="60" right="10"/>
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -225,7 +225,7 @@
                 </children>
               </grid>
               <grid id="6ef9c" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="40" left="0" bottom="60" right="0"/>
+                <margin top="40" left="10" bottom="60" right="10"/>
                 <constraints>
                   <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -372,7 +372,7 @@
                 </children>
               </grid>
               <grid id="1c7b4" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="40" left="0" bottom="60" right="0"/>
+                <margin top="40" left="10" bottom="60" right="10"/>
                 <constraints>
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -430,7 +430,7 @@
                         <properties>
                           <font name="Calibri" size="16"/>
                           <foreground color="-16777216"/>
-                          <text value="Kurier:"/>
+                          <text value="Kurier(ID):"/>
                         </properties>
                       </component>
                       <component id="e2b5" class="javax.swing.JLabel">
@@ -501,7 +501,7 @@
               </grid>
             </children>
           </grid>
-          <grid id="a0639" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="a0639" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="20" bottom="0" right="20"/>
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -515,7 +515,25 @@
                 </constraints>
                 <properties>
                   <font name="Calibri" size="16"/>
-                  <text value="Pole status przyjmuje wartości: &quot;Oczekuje do wysłania&quot;,&quot;Wysłano&quot; lub &quot;Dostarczono&quot;"/>
+                  <text value="* - Pole status przyjmuje wartości: &quot;Oczekuje do wysłania&quot;,&quot;Wysłano&quot; lub &quot;Dostarczono&quot;"/>
+                </properties>
+              </component>
+              <component id="7f470" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Calibri" size="16"/>
+                  <text value="* - Prawidłowy format kodu pocztowego: XX-XXX,gdzie X to cyfra"/>
+                </properties>
+              </component>
+              <component id="73d0e" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Calibri" size="16"/>
+                  <text value="* - Waga ma maksymalnie dwa miejsca po kropce"/>
                 </properties>
               </component>
             </children>

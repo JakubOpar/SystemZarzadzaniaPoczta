@@ -1,9 +1,10 @@
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class BazaDanych implements ILacz{
+public class BazaDanych extends JFrame implements ILacz{
     public BazaDanych()
     {
         try {
@@ -72,7 +73,8 @@ public class BazaDanych implements ILacz{
             }
             lacz.close();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            JOptionPane.showMessageDialog(null,"Błąd połączenia z bazą danych.\n Upewnij się że program Xampp, a w nim\n Apache i MySql są włączone");
+            System.exit(1);
         }
     }
 }

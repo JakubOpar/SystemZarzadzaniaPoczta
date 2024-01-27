@@ -35,7 +35,7 @@ public class ModyfikujListonosz extends JFrame implements ILacz,IModyfikowanie {
             lacz.close();
             }catch(SQLException e)
             {
-                e.printStackTrace();
+                JOptionPane.showMessageDialog(null,"Wystąpił błąd w zapytaniu Sql");
             }
 
 
@@ -49,13 +49,17 @@ public class ModyfikujListonosz extends JFrame implements ILacz,IModyfikowanie {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                modyfikuj(index);
+                try {
+                    modyfikuj(index);
+                } catch (QueryException ex) {
+                    JOptionPane.showMessageDialog(null,ex.getMessage());
+                }
             }
         });
     }
 
     @Override
-    public void modyfikuj(int id) {
+    public void modyfikuj(int id) throws QueryException {
         String imieListonosza = textField1.getText();
         String nazwiskoListonosza = textField2.getText();
         String idRejonu = textField3.getText();
@@ -73,7 +77,7 @@ public class ModyfikujListonosz extends JFrame implements ILacz,IModyfikowanie {
             lacz.close();
         }catch (SQLException e)
         {
-            throw new RuntimeException(e);
+            throw new QueryException("Wystąpił błąd w zapytaniu Sql");
         }
 
         if(imieListonosza.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$") && nazwiskoListonosza.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$") && idRejonu.matches("^[0-9]{1,3}$") && row > 0)
@@ -93,7 +97,7 @@ public class ModyfikujListonosz extends JFrame implements ILacz,IModyfikowanie {
                 }
                 lacz.close();
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                throw new QueryException("Wystąpił błąd w zapytaniu Sql");
             }
         }
         else

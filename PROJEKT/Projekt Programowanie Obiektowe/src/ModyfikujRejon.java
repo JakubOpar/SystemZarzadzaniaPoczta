@@ -35,7 +35,7 @@ public class ModyfikujRejon extends JFrame implements ILacz,IModyfikowanie {
             lacz.close();
         }catch(SQLException e)
         {
-            e.printStackTrace();
+           JOptionPane.showMessageDialog(null,"Wystąpił błąd w zapytaniu Sql");
         }
         anulujButton.addActionListener(new ActionListener() {
             @Override
@@ -47,13 +47,17 @@ public class ModyfikujRejon extends JFrame implements ILacz,IModyfikowanie {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                modyfikuj(index);
+                try {
+                    modyfikuj(index);
+                } catch (QueryException ex) {
+                    JOptionPane.showMessageDialog(null,ex.getMessage());
+                }
             }
         });
     }
 
     @Override
-    public void modyfikuj(int id) {
+    public void modyfikuj(int id) throws QueryException {
         try {
             String idOddzialu = textField2.getText();
             Connection lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
@@ -93,7 +97,7 @@ public class ModyfikujRejon extends JFrame implements ILacz,IModyfikowanie {
                         "oraz opis rejonu ma maksymalną długgość 200 znaków!");
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new QueryException("Wystąpił błąd w zapytaniu Sql");
         }
     }
 }

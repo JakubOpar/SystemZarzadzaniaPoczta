@@ -13,7 +13,7 @@ public class Login extends JFrame {
     private String Log = "Admin", Pass = "Admin";
     public Login()
     {
-        super("Post Menagment System");
+        super("System zarządzania pocztą");
         this.setContentPane(this.LogPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(Width,Height);

@@ -17,7 +17,7 @@ public class List extends NadawcaIOdbiorca implements ILacz,IDodawanie{
     }
 
     @Override
-    public void Dodaj() {
+    public void Dodaj() throws QueryException {
         Connection lacz = null;
         try {
             lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
@@ -43,7 +43,7 @@ public class List extends NadawcaIOdbiorca implements ILacz,IDodawanie{
             argument.close();
             lacz.close();
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            throw new QueryException("Wystąpił błąd w zapytaniu Sql");
         }
     }
 }

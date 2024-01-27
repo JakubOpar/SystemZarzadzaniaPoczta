@@ -32,7 +32,11 @@ public class DodajRejon extends JFrame {
                 if(kodRejonu.matches("^[1-9]{5}$") && opisRejonu.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,200}$"))
                 {
                     Rejon rejon = new Rejon(Integer.parseInt(kodRejonu),opisRejonu);
-                    rejon.Dodaj();
+                    try {
+                        rejon.Dodaj();
+                    } catch (QueryException ex) {
+                        JOptionPane.showMessageDialog(null,ex.getMessage());
+                    }
                     dispose();
                 }
                 else

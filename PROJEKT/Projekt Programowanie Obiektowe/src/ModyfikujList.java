@@ -22,7 +22,7 @@ public class ModyfikujList extends JFrame implements ILacz,IModyfikowanie{
     private JTextField textField1;
     private JTextField textField2;
 
-    private final int Width = 1000, Height = 400;
+    private final int Width = 1000, Height = 550;
 
     public ModyfikujList(int index)
     {
@@ -72,13 +72,17 @@ public class ModyfikujList extends JFrame implements ILacz,IModyfikowanie{
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                modyfikuj(index);
+                try {
+                    modyfikuj(index);
+                } catch (QueryException ex) {
+                    JOptionPane.showMessageDialog(null,ex.getMessage());
+                }
             }
         });
     }
 
     @Override
-    public void modyfikuj(int id) {
+    public void modyfikuj(int id) throws QueryException {
         try {
             String ID_Listonosza = textField2.getText();
             Connection lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
@@ -111,52 +115,52 @@ public class ModyfikujList extends JFrame implements ILacz,IModyfikowanie{
 
             if(!imieNadawcy.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$"))
             {
-                komunikat += "imie nadawcy \n";
+                komunikat += "imie nadawcy (Max. 20 znaków) \n";
                 blad++;
             }
             if(!nazwiskoNadawcy.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$"))
             {
-                komunikat += "nazwisko nadawcy \n";
+                komunikat += "nazwisko nadawcy (Max. 20 znaków) \n";
                 blad++;
             }
             if(!adresNadawcy.matches("^[a-zA-Z0-9ęóąśłżźćńĘÓĄŚŁŻŹĆŃ\\s]{1,30}$"))
             {
-                komunikat += "adres nadawcy \n";
+                komunikat += "adres nadawcy (Max. 30 znaków) \n";
                 blad++;
             }
             if(!kodPocztowyNadawcy.matches("^[0-9]{2}-[0-9]{3}$"))
             {
-                komunikat += "kod pocztowy nadawcy \n";
+                komunikat += "kod pocztowy nadawcy (prawidłowy Format XX-XXX) \n";
                 blad++;
             }
             if(!miejscowoscNadawcy.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ\\s]{1,20}$"))
             {
-                komunikat += "miejscowosc kp. nadawcy \n";
+                komunikat += "miejscowosc kp. nadawcy (Max. 20 znaków)\n";
                 blad++;
             }
             if(!imieOdbiorcy.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$"))
             {
-                komunikat += "imie odbiorcy \n";
+                komunikat += "imie odbiorcy (Max. 20 znaków) \n";
                 blad++;
             }
             if(!nazwiskoOdbiorcy.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$"))
             {
-                komunikat += "nazwisko odbiorcy \n";
+                komunikat += "nazwisko odbiorcy (Max. 20 znaków) \n";
                 blad++;
             }
             if(!adresObdiorcy.matches("^[a-zA-Z0-9ęóąśłżźćńĘÓĄŚŁŻŹĆŃ\\s]{1,30}$"))
             {
-                komunikat += "adres odbiorcy \n";
+                komunikat += "adres odbiorcy (Max. 30 znaków) \n";
                 blad++;
             }
             if(!kodPocztowyOdbiorcy.matches("^[0-9]{2}-[0-9]{3}$"))
             {
-                komunikat += "kod pocztowy odbiorcy \n";
+                komunikat += "kod pocztowy odbiorcy (prawidłowy Format XX-XXX) \n";
                 blad++;
             }
             if(!miejscowoscOdbiorcy.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ\\s]{1,30}$"))
             {
-                komunikat += "miejscowosc kp. odbiorcy \n";
+                komunikat += "miejscowosc kp. odbiorcy (Max. 20 znaków)  \n";
                 blad++;
             }
 
@@ -201,7 +205,7 @@ public class ModyfikujList extends JFrame implements ILacz,IModyfikowanie{
                 lacz.close();
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new QueryException("Wystąpił błąd w zapytaniu Sql");
         }
     }
 }

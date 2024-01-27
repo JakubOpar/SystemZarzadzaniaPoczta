@@ -1,4 +1,4 @@
 public interface IWyswietlanie {
-    void wyswietl();
+    void wyswietl() throws QueryException;
     void createTable();
 }
