@@ -56,22 +56,50 @@ public class ModyfikujKurier extends JFrame implements ILacz,IModyfikowanie {
 
     @Override
     public void modyfikuj(int id) {
-        try {
+        String imieKuriera = textField1.getText();
+        String nazwiskoKuriera = textField2.getText();
+        String idRejonu = textField3.getText();
+        int row = 0;
+        try{
             Connection lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
-            String zapytanie = "UPDATE `kurierzy` SET `Imie_Kuriera` = ?, `Nazwisko_Kuriera` = ?, `ID_Rejonu` = ? WHERE ID_kuriera = ?";
+            String zapytanie = "Select ID_Rejonu FROM rejon WHERE ID_rejonu = ?";
             PreparedStatement statement = lacz.prepareStatement(zapytanie);
-            statement.setString(1,textField1.getText());
-            statement.setString(2,textField2.getText());
-            statement.setString(3,textField3.getText());
-            statement.setInt(4,id);
-
-            int rowsUpdated = statement.executeUpdate();
-            if (rowsUpdated > 0) {
-                JOptionPane.showMessageDialog(null,"Zaktualizowano dane!");
+            statement.setString(1,idRejonu);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next())
+            {
+                row++;
             }
             lacz.close();
-        } catch (SQLException e) {
+        }catch (SQLException e)
+        {
             throw new RuntimeException(e);
+        }
+
+        if(imieKuriera.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$") && nazwiskoKuriera.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$") && idRejonu.matches("^[0-9]{1,3}$") && row > 0)
+        {
+            try {
+                Connection lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
+                String zapytanie = "UPDATE `kurierzy` SET `Imie_Kuriera` = ?, `Nazwisko_Kuriera` = ?, `ID_Rejonu` = ? WHERE ID_kuriera = ?";
+                PreparedStatement statement = lacz.prepareStatement(zapytanie);
+                statement.setString(1,imieKuriera);
+                statement.setString(2,nazwiskoKuriera);
+                statement.setString(3,idRejonu);
+                statement.setInt(4,id);
+
+                int rowsUpdated = statement.executeUpdate();
+                if (rowsUpdated > 0) {
+                    JOptionPane.showMessageDialog(null,"Zaktualizowano dane!");
+                }
+                lacz.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, " Zły format danych lub brak rejonu o takim id\n" +
+                    "Notka: Pole może zawierać tylko litery i mieć maksymalną długość 20 znaków\n");
         }
     }
 }

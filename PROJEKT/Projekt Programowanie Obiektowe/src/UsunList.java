@@ -30,8 +30,16 @@ public class UsunList extends JFrame implements ILacz,IUsuwanie {
         zatwierdzButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                usun(textField1.getText());
+                String arg = textField1.getText();
+                if(arg.matches("^[1-9]{1,3}$"))
+                {
+                    usun(arg);
+                    dispose();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null,"Wartość musi być cyfrą!");
+                }
             }
         });
     }

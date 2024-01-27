@@ -57,19 +57,32 @@ public class ModyfikujOddzial extends JFrame implements ILacz,IModyfikowanie {
 
     @Override
     public void modyfikuj(int id) {
-        try {
+        try{
+            String nazwaOddzialu = textField1.getText();
+            String adresZameldowania = textField2.getText();
+            String kodPocztowy = textField3.getText();
+            String miejscowosc = textField4.getText();
             Connection lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
-            String zapytanie = "UPDATE `oddzialy` SET `Nazwa_Oddzialu` = ?, `Miejsce_Zameldowania` = ?, `Kod_Pocztowy` = ?, `Miejscowosc` = ? WHERE `oddzialy`.`ID_Oddzialu` = ?";
-            PreparedStatement statement = lacz.prepareStatement(zapytanie);
-            statement.setString(1,textField1.getText());
-            statement.setString(2,textField2.getText());
-            statement.setString(3,textField3.getText());
-            statement.setString(4,textField4.getText());
-            statement.setInt(5,id);
 
-            int rowsUpdated = statement.executeUpdate();
-            if (rowsUpdated > 0) {
-                JOptionPane.showMessageDialog(null,"Zaktualizowano dane!");
+            if(nazwaOddzialu.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,50}$") && adresZameldowania.matches("^[a-zA-Z0-9ęóąśłżźćńĘÓĄŚŁŻŹĆŃ\\s]{1,50}$")
+                    && kodPocztowy.matches("^[0-9]{2}-[0-9]{3}$") && miejscowosc.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ\\s]{1,20}$"))
+            {
+                String zapytanie = "UPDATE `oddzialy` SET `Nazwa_Oddzialu` = ?, `Miejsce_Zameldowania` = ?, `Kod_Pocztowy` = ?, `Miejscowosc` = ? WHERE `oddzialy`.`ID_Oddzialu` = ?";
+                PreparedStatement statement = lacz.prepareStatement(zapytanie);
+                statement.setString(1,nazwaOddzialu);
+                statement.setString(2,adresZameldowania);
+                statement.setString(3,kodPocztowy);
+                statement.setString(4,miejscowosc);
+                statement.setInt(5,id);
+
+                int rowsUpdated = statement.executeUpdate();
+                if (rowsUpdated > 0) {
+                    JOptionPane.showMessageDialog(null,"Zaktualizowano dane!");
+                }
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null,"Podano zły format danych");
             }
             lacz.close();
         } catch (SQLException e) {

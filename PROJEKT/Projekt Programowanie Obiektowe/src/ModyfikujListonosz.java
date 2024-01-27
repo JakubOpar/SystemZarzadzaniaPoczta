@@ -56,41 +56,50 @@ public class ModyfikujListonosz extends JFrame implements ILacz,IModyfikowanie {
 
     @Override
     public void modyfikuj(int id) {
-        try {
-            String ID_Rejonu = textField2.getText();
+        String imieListonosza = textField1.getText();
+        String nazwiskoListonosza = textField2.getText();
+        String idRejonu = textField3.getText();
+        int row = 0;
+        try{
             Connection lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
             String zapytanie = "Select ID_Rejonu FROM rejon WHERE ID_rejonu = ?";
             PreparedStatement statement = lacz.prepareStatement(zapytanie);
-            statement.setString(1,ID_Rejonu);
-            int row = 0;
+            statement.setString(1,idRejonu);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next())
             {
                 row++;
             }
+            lacz.close();
+        }catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
 
-            if(row == 0)
-            {
-                JOptionPane.showMessageDialog(null,"Nie istnieje rejon o takim id!");
-            }
-            else
-            {
-                lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
-                String zapytanie2 = "UPDATE `listonosze` SET `Imie_Listonosza` = ?, `Nazwisko_Listonosza` = ?, `ID_Rejonu` = ? WHERE ID_Listonosza = ?";
-                statement = lacz.prepareStatement(zapytanie2);
-                statement.setString(1,textField1.getText());
-                statement.setString(2,textField2.getText());
-                statement.setString(3,textField3.getText());
+        if(imieListonosza.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$") && nazwiskoListonosza.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$") && idRejonu.matches("^[0-9]{1,3}$") && row > 0)
+        {
+            try {
+                Connection lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
+                String zapytanie = "UPDATE `listonosze` SET `Imie_Listonosza` = ?, `Nazwisko_Listonosza` = ?, `ID_Rejonu` = ? WHERE ID_Listonosza = ?";
+                PreparedStatement statement = lacz.prepareStatement(zapytanie);
+                statement.setString(1,imieListonosza);
+                statement.setString(2,nazwiskoListonosza);
+                statement.setString(3,idRejonu);
                 statement.setInt(4,id);
 
                 int rowsUpdated = statement.executeUpdate();
                 if (rowsUpdated > 0) {
                     JOptionPane.showMessageDialog(null,"Zaktualizowano dane!");
                 }
+                lacz.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-            lacz.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, " Zły format danych lub brak rejonu o takim id\n" +
+                    "Notka: Pole może zawierać tylko litery i mieć maksymalną długość 20 znaków\n");
         }
     }
 }

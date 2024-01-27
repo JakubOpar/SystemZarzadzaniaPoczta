@@ -30,6 +30,7 @@ public class ModyfikujRejon extends JFrame implements ILacz,IModyfikowanie {
             if (resultSet.next()){
                 textField1.setText(resultSet.getString(1));
                 textArea1.setText(resultSet.getString(2));
+                textField2.setText(resultSet.getString(3));
             }
             lacz.close();
         }catch(SQLException e)
@@ -53,12 +54,12 @@ public class ModyfikujRejon extends JFrame implements ILacz,IModyfikowanie {
 
     @Override
     public void modyfikuj(int id) {
-        String idOddzialu = textField2.getText();
         try {
+            String idOddzialu = textField2.getText();
             Connection lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
             String zapytanie = "SELECT ID_Oddzialu FROM oddzialy WHERE ID_Oddzialu = ?";
             PreparedStatement statement = lacz.prepareStatement(zapytanie);
-            statement.setString(1,idOddzialu);
+            statement.setInt(1,Integer.parseInt(idOddzialu));
             int row = 0;
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next())
@@ -66,18 +67,17 @@ public class ModyfikujRejon extends JFrame implements ILacz,IModyfikowanie {
                 row++;
             }
 
-            if(row == 0)
+            String kodRejonu = textField1.getText();
+            String opisRejonu = textArea1.getText();
+            if(kodRejonu.matches("^[1-9]{5}$") && opisRejonu.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,200}$") && idOddzialu.matches("^[0-9]{1,3}$") && row > 0)
             {
-                JOptionPane.showMessageDialog(null,"Nie istnieje odział o takim id!");
-            }
-            else
-            {
+                int idOddzial = Integer.parseInt(idOddzialu);
                 lacz = DriverManager.getConnection(DBLINK, USERNAME, PASSWORD);
                 String zapytanie2 = "UPDATE `rejon` SET `Kod_Rejonu` = ?, `Opis_Rejonu` = ?, `ID_Oddzialu` = ? WHERE ID_Rejonu = ?";
                 statement = lacz.prepareStatement(zapytanie2);
-                statement.setString(1,textField1.getText());
-                statement.setString(2,textArea1.getText());
-                statement.setString(3,textField2.getText());
+                statement.setString(1,kodRejonu);
+                statement.setString(2,opisRejonu);
+                statement.setInt(3, idOddzial);
                 statement.setInt(4,id);
 
                 int rowsUpdated = statement.executeUpdate();
@@ -85,7 +85,12 @@ public class ModyfikujRejon extends JFrame implements ILacz,IModyfikowanie {
                     JOptionPane.showMessageDialog(null,"Zaktualizowano dane!");
                 }
                 lacz.close();
-
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null,"Zły format danych \n" +
+                        "kod rejonu może zawierać tylko cyfry i musi mieć długość 5 znaków \n" +
+                        "oraz opis rejonu ma maksymalną długgość 200 znaków!");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

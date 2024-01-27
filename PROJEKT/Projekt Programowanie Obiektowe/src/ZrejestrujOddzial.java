@@ -33,9 +33,18 @@ public class ZrejestrujOddzial extends JFrame {
                 String kodPocztowy = textField3.getText();
                 String miejscowosc = textField4.getText();
 
-                Oddzial oddzial = new Oddzial(nazwaOddzialu,adresZameldowania,kodPocztowy,miejscowosc);
-                oddzial.Dodaj();
-                dispose();
+                if(nazwaOddzialu.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ\\s]{1,50}$") && adresZameldowania.matches("^[a-zA-Z0-9ęóąśłżźćńĘÓĄŚŁŻŹĆŃ\\s]{1,50}$")
+                && kodPocztowy.matches("^[0-9]{2}-[0-9]{3}$") && miejscowosc.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ\\s]{1,20}$"))
+                {
+                    Oddzial oddzial = new Oddzial(nazwaOddzialu,adresZameldowania,kodPocztowy,miejscowosc);
+                    oddzial.Dodaj();
+                    dispose();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null,"Podano zły format danych");
+                }
+
             }
         });
     }

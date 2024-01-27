@@ -28,9 +28,21 @@ public class DodajListonosz extends JFrame {
         zatwierdzButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            Listonosz listonosz = new Listonosz(textField1.getText(),textField2.getText());
-            listonosz.Dodaj();
-            dispose();
+                String imieListonosza = textField1.getText();
+                String nazwiskoListonosza = textField2.getText();
+                if(imieListonosza.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$") && nazwiskoListonosza.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$"))
+                {
+                    Listonosz listonosz = new Listonosz(textField1.getText(),textField2.getText());
+                    listonosz.Dodaj();
+                    dispose();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, """
+                            Zły format danych\s
+                             Pole może zawierać tylko litery i mieć
+                             maksymalną długość 20 znaków!""");
+                }
             }
         });
     }

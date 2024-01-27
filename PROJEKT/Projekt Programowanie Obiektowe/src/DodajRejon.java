@@ -27,12 +27,21 @@ public class DodajRejon extends JFrame {
         zatwierdzButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int numerRejonu = Integer.parseInt(textField1.getText());
+                String kodRejonu = textField1.getText();
                 String opisRejonu = textArea1.getText();
+                if(kodRejonu.matches("^[1-9]{5}$") && opisRejonu.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,200}$"))
+                {
+                    Rejon rejon = new Rejon(Integer.parseInt(kodRejonu),opisRejonu);
+                    rejon.Dodaj();
+                    dispose();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null,"Zły format danych \n" +
+                            "kod rejonu może zawierać tylko cyfry i musi mieć długość 5 znaków \n" +
+                            "oraz opis rejonu ma maksymalną długgość 200 znaków!");
+                }
 
-                Rejon rejon = new Rejon(numerRejonu,opisRejonu);
-                rejon.Dodaj();
-                dispose();
             }
         });
     }

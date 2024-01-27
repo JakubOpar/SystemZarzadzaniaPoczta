@@ -28,9 +28,21 @@ public class DodajKurier extends JFrame{
         zatwierdzButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            Kurier kurier = new Kurier(textField1.getText(),textField2.getText());
-            kurier.Dodaj();
-            dispose();
+                String imieKuriera = textField1.getText();
+                String nazwiskoKuriera = textField2.getText();
+                if(imieKuriera.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$") && nazwiskoKuriera.matches("^[a-zA-ZęóąśłżźćńĘÓĄŚŁŻŹĆŃ]{1,20}$"))
+                {
+                    Kurier kurier = new Kurier(imieKuriera,nazwiskoKuriera);
+                    kurier.Dodaj();
+                    dispose();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, """
+                            Zły format danych\s
+                             Pole może zawierać tylko litery i mieć
+                             maksymalną długość 20 znaków!""");
+                }
             }
         });
     }
